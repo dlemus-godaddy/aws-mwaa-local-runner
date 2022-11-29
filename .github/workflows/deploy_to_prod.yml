@@ -1,0 +1,109 @@
+name: Check and deploy to Prod
+
+# only trigger on pull request closed events
+on:
+  pull_request:
+    branches:
+      - main
+    types: [ closed ]
+
+
+jobs:
+  changedfiles:
+    runs-on: ubuntu-latest
+    outputs:
+      all: ${{ steps.changes.outputs.all }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - run: |
+          ls -lrt
+          git status
+          echo " $(git diff --diff-filter=d --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | xargs)"
+          git show ${{ github.event.pull_request.head.sha }}
+          git fetch
+          git show ${{ github.event.pull_request.head.sha }}
+
+
+      - name: Sets changed files
+        id: changes
+        run: "echo \"::set-output name=all::$(git diff --diff-filter=d --name-only ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | xargs)\""
+
+  deploytoprod:
+    if: github.event.pull_request.merged == true
+    environment: prod
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    needs: [changedfiles]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: "Setup python"
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+      - name: Install awscli
+        run: |
+          pip3 install awscli
+      - name: Configure AWS credentials using Cloud Keys
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_DEPLOY_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_DEPLOY_SECRET_KEY }}
+          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE }}
+          role-duration-seconds: 3600
+          aws-region: us-west-2
+      - name: Copy files to the S3 code bucket
+        run: |
+          aws sts get-caller-identity
+          echo $SHA
+          pwd
+          ls -lrt
+          for file_name in ${{needs.changedfiles.outputs.all}}; do
+              if [[ ${file_name} != dags/* && ${file_name} != great_expectations/* && ${file_name} != scripts/* ]];then
+                  echo "ignored copy of file ${file_name}"
+                  continue
+              fi
+              if [[ ${file_name} == *.py || ${file_name} == *.json || ${file_name} == *.sh || ${file_name} == *req*.txt || ${file_name} == *.yml ]];then
+                  if [[ ${file_name} == dags/great_expectations/* ]]; then
+                      echo "ignored copy of file ${file_name}"
+                      continue
+                  elif [[ ${file_name} != scripts*ci*.sh ]]; then
+                      echo " copying file ${file_name}"
+                      aws s3 cp ${file_name} s3://gd-myteam-prod-airflow-artifacts/${file_name}
+                  else
+                      echo "ignored copy of file ${file_name}"
+                  fi
+              fi
+          done
+      - name: Checkout Slack Action from Public fork
+        if: ${{ always() }}
+        uses: actions/checkout@v2
+        with:
+          repository: gdcorp-action-public-forks/action-slack-notify
+          token:  ${{ secrets.GD_ACTIONS_PUBLIC_FORK_PAT }}
+          path: slack-notify-action
+          persist-credentials: false
+      - name: Send failure notification
+        if: ${{ failure() }}
+        uses: ./slack-notify-action
+        env:
+          SLACK_CHANNEL: myteam-pipelines
+          SLACK_COLOR:  ${{ job.status }}
+          SLACK_MESSAGE: ${{ env.GITHUB_EVENT_NAME }} push failure for  ${{ github.job }}
+          SLACK_TITLE: Airflow Artifacts push failure  for  ${{ github.head_ref }}
+          SLACK_USERNAME: SA
+          SLACK_WEBHOOK: ${{ secrets.AWS_SLACK_WEBHOOK }}
+      - name: Send Success notification
+        if: ${{ success() }}
+        uses: ./slack-notify-action
+        env:
+          SLACK_CHANNEL: myteam-pipelines
+          SLACK_COLOR:  ${{ job.status }}
+          SLACK_MESSAGE:  ${{ github.event_name }}  push succeeded for ${{ github.head_ref }}
+          SLACK_TITLE: Airflow PR deploy succeeded for ${{ github.job }}
+          SLACK_USERNAME: SA
+          SLACK_WEBHOOK: ${{ secrets.AWS_SLACK_WEBHOOK }}

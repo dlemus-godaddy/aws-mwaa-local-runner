@@ -1,0 +1,44 @@
+exclude: .*node_modules/.*
+default_language_version:
+  # force all unspecified python hooks to run python3
+  python: python3
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.2.0
+    hooks:
+      - id: trailing-whitespace
+      - id: debug-statements
+      - id: end-of-file-fixer
+      - id: check-json
+      - id: check-toml
+      - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+      - id: check-symlinks
+      - id: check-merge-conflict
+      - id: check-byte-order-marker
+  - repo: https://github.com/godaddy/tartufo # tartufo hook
+    rev: v2.3.0
+    hooks:
+      - id: tartufo
+  - repo: https://github.com/psf/black
+    rev: 22.3.0
+    hooks:
+      - id: black
+        name: Run Black (Python code formatter)
+        args: [--config=./pyproject.toml]
+  - repo: https://github.com/timothycrosley/isort
+    rev: 5.9.3
+    hooks:
+      - id: isort
+        name: Run isort to sort imports in Python files
+        args: ["--profile", "black"]
+        files: \.py$
+  - repo: local
+    hooks:
+      - id: flake8
+        name: Run flake8
+        language: script
+        entry: ./scripts/ci/pre_commit/local_runner.sh
+        files: \.py$
+        pass_filenames: true
