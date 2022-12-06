@@ -1,4 +1,4 @@
-# mwaa-skeleton
+# de-pipelines-template
 MWAA Skeleton base repository for DE teams [Airflow](https://aws.amazon.com/managed-workflows-for-apache-airflow/) artifacts: Dags and  Libs  for the data engg. teams.
 Airflow version - [2.X](https://docs.aws.amazon.com/mwaa/latest/userguide/airflow-versions.html#airflow-versions-v202)
 
@@ -13,20 +13,93 @@ Airflow version - [2.X](https://docs.aws.amazon.com/mwaa/latest/userguide/airflo
 - Local operators live in  [libs](./dags/local_libs) directory.
 - Local utility dags live in  [util_dags](./dags/local_util_dags) directory, also with 
 - Common configs live in  [local_common_config](./dags/local_common_config) directory, also with
-- Recommended structure:
+
+## Project Structure
+
+```bash
+.
+├── .github                      
+│   ├── workflow_on_pr.yml          # CI processes to run on PR
+│   ├── workflow_on_merge.yml       # CI processes to run after merge to Main
+│   ├── secrets_rotator.yml         # Secret Rotator
+│   ├── deploy_dags.yml             # validate and deploy Dags for MWAA including MWAA runner
+│   ├── deploy_ddl.yml              # create tables if any needed for the process
+│   └── deploy_pipeline.yml         # validate and deploy Pipelines for EMR/Other engines
+│                           
+├── data_application_one            # root folder of a specific data application or sub domain
+│   ├── pipeline_one_a              # folder for the pipeline "a" for sub domain "one"
+│   │   ├── config.json             # config need for the CICD and other needs in Dags/pipelines
+│   │   ├── src                     # directory for all source code
+│   │   │   ├── pyspark             # directory for pyspark code
+│   │   │   │   ├── my_script_one_a.py   # sample pyspark script
+│   │   │   ├── hive                # directory for hive scripts  
+│   │   │   │   ├── my_script_one_a.hive # sample hive script
+│   │   │   │   │
+│   │   │   ├── ddls                # directory for ddls  if needed
+│   │   │   │   ├── my_table_a.ddl 
+│   │   │   │   │
+│   │   │   ├── dag                 # directory for containing dags and any local helpers to be deployed to MWAA S3 bucket
+│   │   │   │   ├── my_dag_one_a.py      # sample hive script
+|   |   |   |   ├── my_dag_helper_a.py  # sample hive script
+│   │   │   │   │
+│   │   └── test                    # test dir
+│   │       └── pyspark             # pyspark tests
+│   │           └── my_script_one_a.py   # pyspark test script
+│   └── pipeline_one_b              # folder for the pipeline "b" for sub domain "one".
+│       ├── config.json            
+│       ├── src
+│       │   ├── pyspark
+│       │   │   ├── my_script_one_b.py
+│       │   ├── hive
+│       │   │   ├── my_script_one_b.hive 
+│       │   │   │
+│       │   ├── dag
+│       │   │   ├── my_dag_one_b.py
+|       |   |   └── my_dag_helper_b.py
+│       │   │    
+│       └── test
+│           └── pyspark
+│              └── my_script_one_b.py
+│
+│
+├── data_application_two            # root folder of a specific data application or sub domain
+│   └── pipeline_two_a              # folder for the pipeline "a" for sub domain "two".
+│       ├── config.json
+│       ├── src
+│       │   ├── pyspark
+│       │   │   ├── my_script_two_a.py
+│       │   ├── hive
+│       │   │   ├── my_script_two_a.hive 
+│       │   │   │
+│       │   ├── dag
+│       │   │   └── my_dag_two_a.py       
+│       │   │   
+│       └── test
+│           └── pyspark
+│              └── my_script_two_a.py
+├── common                      # root folder of a common utils
+│   ├── __init__.py         
+│   ├── airflow                 # folder containing common airflow utils to be deployed with Dags
+│   │   ├── custom_blah.py
+│   │   └── __init__.py
+│   │
+│   └── pyspark                # folder containing pyspark utils to be packaged/deployed with pyspark pipelines
+│       └── __init__.py
+├── scripts                    # scripts needed for static checks/CICD etc.
+│   ├── ci         
+│   └── bootstap
+│      
+├── docs                            # folder for documentation for your project
+├── .flake8                         # configuration for flake8 - a Python formatter tool
+├── .gitignore                      # ignore files that cannot commit to Git
+├── Makefile                        # store useful commands to set up the environment
+├── .pre-commit-config.yaml         # configurations for pre-commit
+├── pyproject.toml                  # dependencies for poetry
+├── README.md                       # describe your project
+└── tartufo.toml                    # tartufo config
 ```
-    - dags
-        - local_common_config
-        - local_libs (local custom operators)
-            - my_custom_operator.py 
-        - my_process_pipeline (pipeline/process)
-                - backfill (any backfill specific code/dags)
-                        - my_backfill_dag.py
-                - my_process_dag.py (main dag file)
-                - readme.py (Doc for dag seen in MWAA UI)
-       
-        - .airflowignore (file to ignore the libs which are not needed to be parsed by Webserver)
-```
+
+
 
 
 #### Instructions for Developer Local Setup
