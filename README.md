@@ -40,7 +40,7 @@ Airflow version - [2.X](https://docs.aws.amazon.com/mwaa/latest/userguide/airflo
 │   │   │   │   │
 │   │   │   ├── dag                 # directory for containing dags and any local helpers to be deployed to MWAA S3 bucket
 │   │   │   │   ├── my_dag_one_a.py      # sample hive script
-|   |   |   |   ├── my_dag_helper_a.py  # sample hive script
+│   │   │   │   ├── my_dag_helper_a.py  # sample hive script
 │   │   │   │   │
 │   │   └── test                    # test dir
 │   │       └── pyspark             # pyspark tests
