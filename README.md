@@ -55,7 +55,7 @@ Airflow version - [2.X](https://docs.aws.amazon.com/mwaa/latest/userguide/airflo
 │       │   │   │
 │       │   ├── dag
 │       │   │   ├── my_dag_one_b.py
-|       |   |   └── my_dag_helper_b.py
+│       │   │   └── my_dag_helper_b.py
 │       │   │    
 │       └── test
 │           └── pyspark
@@ -88,7 +88,15 @@ Airflow version - [2.X](https://docs.aws.amazon.com/mwaa/latest/userguide/airflo
 ├── scripts                    # scripts needed for static checks/CICD etc.
 │   ├── ci         
 │   └── bootstap
-│      
+│ 
+├── provisioning               # Folder to hold all AWS provisioning config(not templates but only config).
+│   └── config                 # It is important to note that the templates will be provided in a repo managed by DP.
+│       └── region
+│          ├── dev-private
+│          └── prod
+│
+│
+│     
 ├── docs                            # folder for documentation for your project
 ├── .flake8                         # configuration for flake8 - a Python formatter tool
 ├── .gitignore                      # ignore files that cannot commit to Git
