@@ -90,7 +90,12 @@ Airflow version - [2.X](https://docs.aws.amazon.com/mwaa/latest/userguide/airflo
 │   └── bootstap
 │ 
 ├── provisioning               # Folder to hold all AWS provisioning config(not templates but only config).
-│   └── config                 # It is important to note that the templates will be provided in a repo managed by DP. 
+│   └── config                 # It is important to note that the templates will be provided in a repo managed by DP.
+│       └── region
+│          ├── dev-private
+│          └── prod
+│
+│
 │     
 ├── docs                            # folder for documentation for your project
 ├── .flake8                         # configuration for flake8 - a Python formatter tool
