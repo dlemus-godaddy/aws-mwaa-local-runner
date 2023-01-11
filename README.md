@@ -2,9 +2,42 @@
 A standard cookiecutter project structure for doing Data Engineering work. This includes readymade standard CICD and
 sample pipelines.
 
+## Features
+- ReadyMade Project Repository with Samples, Resource Provisioning and CICD.
+- Auto Code Formatting with Black
+- Import sorting with iSort
+- Linting with Flake8
+- Git hooks that run all the above with pre-commit
+- Continous Integration with Github Actions
+- Resource provisioning for MWAA and dependencies.
+
+
 ### Requirements to use the cookiecutter template:
 1) Python 3.10
 2) Ensure that your machine has [CookieCutter Python Package](https://cookiecutter.readthedocs.io/en/latest/installation.html)
+
+
+
+### Steps to create a tempalte:
+
+```
+
+cookiecutter -c v1 https://github.com/gdcorp-dna/dof-system-template
+
+# Enter project directory
+cd <repo_name>
+
+# Initialise git repo
+git init
+
+# Steps to install requirements
+
+# Setup pre-commit and pre-push hooks
+pipenv run pre-commit install -t pre-commit
+pipenv run pre-commit install -t pre-push
+
+```
+
 
 ## Resulting Project Structure
 
@@ -98,34 +131,6 @@ sample pipelines.
 ├── README.md                       # describe your project
 └── tartufo.toml                    # tartufo config
 ```
-
-
-### Steps to create a tempalte:
-
-```
-
-cookiecutter -c v1 https://github.com/gdcorp-dna/dof-system-template
-
-# Enter project directory
-cd <repo_name>
-
-# Initialise git repo
-git init
-
-# Steps to install requirements
-
-# Setup pre-commit and pre-push hooks
-pipenv run pre-commit install -t pre-commit
-pipenv run pre-commit install -t pre-push
-
-```
-
-
-
-
-
-
-
 
 #### Instructions for Developer Local Setup
 ****Pyenv and Poetry****

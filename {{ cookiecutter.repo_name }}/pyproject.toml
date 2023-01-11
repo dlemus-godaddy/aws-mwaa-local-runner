@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "mwaa-skeleton"
+name = "{{ cookiecutter.project_name}}"
 version = "0.1.0"
-description = "Template for MWAA repositories and local dev setup"
+description = "Local dev setup"
 authors = ["akumar1 <akumar1@godaddy.com>"]
 
 [[tool.poetry.source]]

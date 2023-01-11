@@ -11,5 +11,5 @@
   "pipeline_code_s3_bucket": "your-bucket-for-storing dags (do not include 's3://')",
   "development_aws_account_id": "your-dev-private-aws-account id",
   "prod_aws_account_id": "your-dev-private-aws-account id",
-  "on-call-slack-notification": "your slack notification channel",
+  "on-call-slack-notification": "your slack notification channel"
 }
