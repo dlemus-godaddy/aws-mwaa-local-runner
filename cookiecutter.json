@@ -8,8 +8,10 @@
   "aws_profile": "default",
   "first_subdomain": "sample_data_application",
   "mwaa_dags_s3_bucket": "your-bucket-for-storing dags (do not include 's3://')",
-  "pipeline_code_s3_bucket": "your-bucket-for-storing dags (do not include 's3://')",
+  "pipeline_code_s3_bucket": "your-bucket-for-storing pipeline code and scripts (do not include 's3://')",
   "development_aws_account_id": "your-dev-private-aws-account id",
-  "prod_aws_account_id": "your-dev-private-aws-account id",
-  "on-call-slack-notification": "your slack notification channel"
+  "prod_aws_account_id": "your-prod-aws-account id",
+  "on-call-slack-notification": "your slack notification channel",
+  "first_sub_domain": "the first data application/subdomain you want to build",
+  "first_pipeline_name": "the first data pipeline you want to build"
 }
