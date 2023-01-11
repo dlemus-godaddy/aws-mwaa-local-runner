@@ -20,7 +20,7 @@ sample pipelines.
 │                           
 ├── data_application_one            # root folder of a specific data application or sub domain
 │   ├── pipeline_one_a              # folder for the pipeline "a" for sub domain "one"
-│   │   ├── config.json             # config need for the CICD and other needs in Dags/pipelines
+│   │   ├── config.yml             # config need for the CICD and other needs in Dags/pipelines
 │   │   ├── src                     # directory for all source code
 │   │   │   ├── pyspark             # directory for pyspark code
 │   │   │   │   ├── my_script_one_a.py   # sample pyspark script
@@ -38,7 +38,7 @@ sample pipelines.
 │   │       └── pyspark             # pyspark tests
 │   │           └── my_script_one_a.py   # pyspark test script
 │   └── pipeline_one_b              # folder for the pipeline "b" for sub domain "one".
-│       ├── config.json            
+│       ├── config.yml            
 │       ├── src
 │       │   ├── pyspark
 │       │   │   ├── my_script_one_b.py
@@ -56,7 +56,7 @@ sample pipelines.
 │
 ├── data_application_two            # root folder of a specific data application or sub domain
 │   └── pipeline_two_a              # folder for the pipeline "a" for sub domain "two".
-│       ├── config.json
+│       ├── config.yml
 │       ├── src
 │       │   ├── pyspark
 │       │   │   ├── my_script_two_a.py
