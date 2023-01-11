@@ -22,7 +22,7 @@ sample pipelines.
 
 ```
 
-cookiecutter -c v1 https://github.com/gdcorp-dna/dof-system-template
+cookiecutter git@github.com:gdcorp-dna/dof-system-template.git
 
 # Enter project directory
 cd <repo_name>
