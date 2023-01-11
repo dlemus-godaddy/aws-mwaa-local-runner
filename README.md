@@ -1,20 +1,45 @@
-# de-pipelines-template
-MWAA Skeleton base repository for DE teams [Airflow](https://aws.amazon.com/managed-workflows-for-apache-airflow/) artifacts: Dags and  Libs  for the data engg. teams.
-Airflow version - [2.X](https://docs.aws.amazon.com/mwaa/latest/userguide/airflow-versions.html#airflow-versions-v202)
+# Data Engineering-pipelines-template
+A standard cookiecutter project structure for doing Data Engineering work. This includes readymade standard CICD and
+sample pipelines.
+
+## Features
+- ReadyMade Project Repository with Samples, Resource Provisioning and CICD.
+- Auto Code Formatting with Black
+- Import sorting with iSort
+- Linting with Flake8
+- Git hooks that run all the above with pre-commit
+- Continous Integration with Github Actions
+- Resource provisioning for MWAA and dependencies.
 
 
-### Setup Instructions
-1) Fork this repository and replace **skeleton** with you **team_name** alias.
-2) Ensure that your machine has Python installed, preferably [Python 3](https://realpython.com/installing-python/)
+### Requirements to use the cookiecutter template:
+1) Python 3.10
+2) Ensure that your machine has [CookieCutter Python Package](https://cookiecutter.readthedocs.io/en/latest/installation.html)
 
 
-### Repository Structure
-- Airflow dags live in the [dags](./dags) directory, along with local config for dag. 
-- Local operators live in  [libs](./dags/local_libs) directory.
-- Local utility dags live in  [util_dags](./dags/local_util_dags) directory, also with 
-- Common configs live in  [local_common_config](./dags/local_common_config) directory, also with
 
-## Project Structure
+### Steps to create a tempalte:
+
+```
+
+cookiecutter -c v1 https://github.com/gdcorp-dna/dof-system-template
+
+# Enter project directory
+cd <repo_name>
+
+# Initialise git repo
+git init
+
+# Steps to install requirements
+
+# Setup pre-commit and pre-push hooks
+pipenv run pre-commit install -t pre-commit
+pipenv run pre-commit install -t pre-push
+
+```
+
+
+## Resulting Project Structure
 
 ```bash
 .
@@ -28,7 +53,7 @@ Airflow version - [2.X](https://docs.aws.amazon.com/mwaa/latest/userguide/airflo
 │                           
 ├── data_application_one            # root folder of a specific data application or sub domain
 │   ├── pipeline_one_a              # folder for the pipeline "a" for sub domain "one"
-│   │   ├── config.json             # config need for the CICD and other needs in Dags/pipelines
+│   │   ├── config.yml             # config need for the CICD and other needs in Dags/pipelines
 │   │   ├── src                     # directory for all source code
 │   │   │   ├── pyspark             # directory for pyspark code
 │   │   │   │   ├── my_script_one_a.py   # sample pyspark script
@@ -46,7 +71,7 @@ Airflow version - [2.X](https://docs.aws.amazon.com/mwaa/latest/userguide/airflo
 │   │       └── pyspark             # pyspark tests
 │   │           └── my_script_one_a.py   # pyspark test script
 │   └── pipeline_one_b              # folder for the pipeline "b" for sub domain "one".
-│       ├── config.json            
+│       ├── config.yml            
 │       ├── src
 │       │   ├── pyspark
 │       │   │   ├── my_script_one_b.py
@@ -64,7 +89,7 @@ Airflow version - [2.X](https://docs.aws.amazon.com/mwaa/latest/userguide/airflo
 │
 ├── data_application_two            # root folder of a specific data application or sub domain
 │   └── pipeline_two_a              # folder for the pipeline "a" for sub domain "two".
-│       ├── config.json
+│       ├── config.yml
 │       ├── src
 │       │   ├── pyspark
 │       │   │   ├── my_script_two_a.py
@@ -106,9 +131,6 @@ Airflow version - [2.X](https://docs.aws.amazon.com/mwaa/latest/userguide/airflo
 ├── README.md                       # describe your project
 └── tartufo.toml                    # tartufo config
 ```
-
-
-
 
 #### Instructions for Developer Local Setup
 ****Pyenv and Poetry****

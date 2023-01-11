@@ -91,7 +91,7 @@ jobs:
         if: ${{ failure() }}
         uses: ./slack-notify-action
         env:
-          SLACK_CHANNEL: myteam-pipelines
+          SLACK_CHANNEL: {{ cookiecutter.on-call-slack-notification }}
           SLACK_COLOR:  ${{ job.status }}
           SLACK_MESSAGE: ${{ env.GITHUB_EVENT_NAME }} push failure for  ${{ github.job }}
           SLACK_TITLE: Airflow Artifacts push failure  for  ${{ github.head_ref }}

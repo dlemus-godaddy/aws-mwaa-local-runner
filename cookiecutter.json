@@ -1,0 +1,15 @@
+{
+  "project_name": "project_name",
+  "repo_name": "{{ cookiecutter.project_name.lower().replace(' ', '_') }}",
+  "author_name": "Your name (or your organization/company/team)",
+  "description": "A short description of the project.",
+  "system_name/domain_name": "A short description of the subject area domain.",
+  "s3_bucket": "[OPTIONAL] your-bucket-for-syncing-data (do not include 's3://')",
+  "aws_profile": "default",
+  "first_subdomain": "sample_data_application",
+  "mwaa_dags_s3_bucket": "your-bucket-for-storing dags (do not include 's3://')",
+  "pipeline_code_s3_bucket": "your-bucket-for-storing dags (do not include 's3://')",
+  "development_aws_account_id": "your-dev-private-aws-account id",
+  "prod_aws_account_id": "your-dev-private-aws-account id",
+  "on-call-slack-notification": "your slack notification channel"
+}
