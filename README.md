@@ -1,20 +1,12 @@
-# de-pipelines-template
-MWAA Skeleton base repository for DE teams [Airflow](https://aws.amazon.com/managed-workflows-for-apache-airflow/) artifacts: Dags and  Libs  for the data engg. teams.
-Airflow version - [2.X](https://docs.aws.amazon.com/mwaa/latest/userguide/airflow-versions.html#airflow-versions-v202)
+# Data Engineering-pipelines-template
+A standard cookiecutter project structure for doing Data Engineering work. This includes readymade standard CICD and
+sample pipelines.
 
+### Requirements to use the cookiecutter template:
+1) Python 3.10
+2) Ensure that your machine has [CookieCutter Python Package](https://cookiecutter.readthedocs.io/en/latest/installation.html)
 
-### Setup Instructions
-1) Fork this repository and replace **skeleton** with you **team_name** alias.
-2) Ensure that your machine has Python installed, preferably [Python 3](https://realpython.com/installing-python/)
-
-
-### Repository Structure
-- Airflow dags live in the [dags](./dags) directory, along with local config for dag. 
-- Local operators live in  [libs](./dags/local_libs) directory.
-- Local utility dags live in  [util_dags](./dags/local_util_dags) directory, also with 
-- Common configs live in  [local_common_config](./dags/local_common_config) directory, also with
-
-## Project Structure
+## Resulting Project Structure
 
 ```bash
 .
@@ -106,6 +98,31 @@ Airflow version - [2.X](https://docs.aws.amazon.com/mwaa/latest/userguide/airflo
 ├── README.md                       # describe your project
 └── tartufo.toml                    # tartufo config
 ```
+
+
+### Steps to create a tempalte:
+
+```
+
+cookiecutter -c v1 https://github.com/gdcorp-dna/dof-system-template
+
+# Enter project directory
+cd <repo_name>
+
+# Initialise git repo
+git init
+
+# Steps to install requirements
+
+# Setup pre-commit and pre-push hooks
+pipenv run pre-commit install -t pre-commit
+pipenv run pre-commit install -t pre-push
+
+```
+
+
+
+
 
 
 

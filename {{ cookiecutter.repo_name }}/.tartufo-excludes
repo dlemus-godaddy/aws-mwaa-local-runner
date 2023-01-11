@@ -1,0 +1,4 @@
+tartufo.toml
+pyproject.toml
+poetry.lock
+.flake8
